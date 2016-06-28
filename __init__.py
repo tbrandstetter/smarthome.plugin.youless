@@ -24,6 +24,10 @@ import time
 
 logger = logging.getLogger('YouLess')
 
+# Disable INFO messages from 'requests' to avoid unecessary
+# log messages
+logging.getLogger('requests').setLevel(logging.WARNING)
+logging.getLogger('urllib3').setLevel(logging.WARNING)
 
 class YouLess():
 
@@ -81,7 +85,7 @@ class YouLess():
         for item_key in self._key2json:
 
             value = data[item_key]
-            
+
             if item_key == "cnt":
               value = float(value.replace(',', '.'))
 
