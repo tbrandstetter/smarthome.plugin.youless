@@ -1,7 +1,7 @@
 #########################################################################
-#  Copyright 2015 Thomas Brandstetter           thomas@brandstetter.co.at
+#  Copyright 2016 Thomas Brandstetter           thomas@brandstetter.co.at
 #########################################################################
-#  YouLess-Plugin for SmartHome.py.     http://mknx.github.com/smarthome/
+#  YouLess-Plugin for SmartHome.py.       https://github.com/smarthomeNG/
 #
 #  This plugin is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 #########################################################################
 
 import logging
+from lib.model.smartplugin import SmartPlugin
 import json
 import requests
 import time
@@ -29,7 +30,10 @@ logger = logging.getLogger('YouLess')
 logging.getLogger('requests').setLevel(logging.WARNING)
 logging.getLogger('urllib3').setLevel(logging.WARNING)
 
-class YouLess():
+class YouLess(SmartPlugin):
+
+    ALLOW_MULTIINSTANCE = False
+    PLUGIN_VERSION = "1.2.1"
 
     def __init__(self, smarthome, host, port=80, cycle=300):
         self._sh = smarthome
