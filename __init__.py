@@ -25,8 +25,6 @@ import json
 import requests
 import time
 
-logger = logging.getLogger('YouLess')
-
 # Disable INFO messages from 'requests' to avoid unecessary
 # log messages
 logging.getLogger('requests').setLevel(logging.WARNING)
@@ -38,6 +36,7 @@ class YouLess(SmartPlugin):
     PLUGIN_VERSION = "1.2.1"
 
     def __init__(self, smarthome, host, port=80, cycle=300):
+        self.logger = logging.getLogger('YouLess')
         self._sh = smarthome
         self._items = []
         self._values = {}
@@ -59,7 +58,7 @@ class YouLess(SmartPlugin):
         }
 
         if not self._host:
-            logger.error("YouLess: Bad configuration, please add a YouLess IP")
+            self.logger.error("YouLess: Bad configuration, please add a YouLess IP")
 
     def run(self):
         self.alive = True
@@ -75,7 +74,7 @@ class YouLess(SmartPlugin):
                 self._items.append([item, item_key])
                 return self.update_item
             else:
-                logger.warn('invalid key {0} configured', item_key)
+                self.logger.warn('invalid key {0} configured', item_key)
         return None
 
     def parse_logic(self, logic):
@@ -106,7 +105,7 @@ class YouLess(SmartPlugin):
         try:
             resp = requests.get(uri, params=self._payload)
         except:
-            logger.error("YouLess: Could not open url: " + resp.status_code)
+            self.logger.error("YouLess: Could not open url: " + resp.status_code)
 
         data = resp.json()
         return data
